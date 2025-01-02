@@ -6,4 +6,8 @@
  */
 export const commonConfig = {
   port: process.env.PORT || 3000,
+  jwt: {
+    secret: process.env.JWT_SECRET || 'libra-secret-key',
+    expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+  },
 };

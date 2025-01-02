@@ -24,4 +24,8 @@ export class ConfigService {
   setupSwagger(app: INestApplication) {
     return setupSwagger(app);
   }
+
+  getJwtConfig() {
+    return commonConfig.jwt;
+  }
 }

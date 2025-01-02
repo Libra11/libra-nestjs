@@ -14,6 +14,7 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './modules/core/config/configs/winston.config';
 import { TestModule } from './modules/test/test.module';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   /**
    * 导入 CoreModule 后，CoreModule 中的 CommonModule、ConfigModule、DatabaseModule、LoggerModule 也会被导入
@@ -23,6 +24,7 @@ import { TestModule } from './modules/test/test.module';
     UserModule,
     CoreModule,
     TestModule,
+    AuthModule,
     WinstonModule.forRoot(winstonConfig),
   ],
   controllers: [AppController],

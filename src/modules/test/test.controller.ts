@@ -36,6 +36,7 @@ import { ResponseData } from '../../common/decorator/response.decorator';
 import { ApiResponseDecorator } from '../../common/decorator/api-response.decorator';
 import { TestDto } from './dto/test.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { Public } from '../../common/decorator/public.decorator';
 
 // 路由前缀路径 test, 所以访问路径为 /test/string 和 /test/json
 // @Controller('test')
@@ -47,6 +48,7 @@ export class TestController {
   /**当请求处理程序返回 JavaScript 原始类型（例如，string、number、boolean）时，Nest 将只发送值，而不会尝试序列化它。 */
   @ApiOperation({ summary: '获取字符串', description: '返回一个简单的字符串' })
   @ApiResponseDecorator(HttpStatus.OK, null, '返回Hello World字符串')
+  @Public()
   @Get('string')
   getHello() {
     return this.testService.getHello();
@@ -55,6 +57,7 @@ export class TestController {
   /**当请求处理程序返回 JavaScript 对象或数组时，它将自动序列化为 JSON。 */
   @ApiOperation({ summary: '获取JSON', description: '返回一个JSON对象' })
   @ApiResponseDecorator(HttpStatus.OK, TestDto, '返回JSON数据')
+  @Public()
   @Get('json')
   getJson() {
     return this.testService.getJson();
@@ -65,6 +68,7 @@ export class TestController {
     summary: '获取请求对象',
     description: '获取完整的请求对象信息',
   })
+  @Public()
   @Get('req')
   getReq(@Req() req: Request) {
     return this.testService.getReq(req);
@@ -74,6 +78,7 @@ export class TestController {
   @ApiOperation({ summary: '获取查询参数', description: '获取URL中的查询参数' })
   @ApiQuery({ name: 'name', required: false, description: '用户名' })
   @ApiQuery({ name: 'age', required: false, description: '年龄' })
+  @Public()
   @Get('query')
   getQuery(@Query() query: any) {
     return this.testService.getQuery(query);
@@ -82,6 +87,7 @@ export class TestController {
   /**@Param('id') id: string 获取路径参数, ParseIntPipe 将字符串转换为数字 */
   @ApiOperation({ summary: '获取路径参数', description: '获取URL中的路径参数' })
   @ApiParam({ name: 'id', required: true, description: '用户ID' })
+  @Public()
   @Get('param/:id')
   @ResponseData({ code: 200, message: '获取ID成功！' })
   getParam(@Param('id', ParseIntPipe) id: number) {
@@ -94,6 +100,7 @@ export class TestController {
     description: '获取POST请求的请求体数据',
   })
   @ApiBody({ description: '用户数据' })
+  @Public()
   @Post('body')
   @ResponseData({ code: 200, message: '获取请求体成功！' })
   getBody(@Body() body: any) {
@@ -102,6 +109,7 @@ export class TestController {
 
   /**@Header() header: any 获取请求头 */
   @ApiOperation({ summary: '获取请求头', description: '获取请求头信息' })
+  @Public()
   @Get('headers')
   getHeaders(@Headers() headers: any) {
     return this.testService.getHeaders(headers);
@@ -109,6 +117,7 @@ export class TestController {
 
   /**@Ip() ip: string 获取请求IP */
   @ApiOperation({ summary: '获取IP地址', description: '获取客户端IP地址' })
+  @Public()
   @Get('ip')
   getIp(@Ip() ip: string) {
     return this.testService.getIp(ip);
@@ -116,6 +125,7 @@ export class TestController {
 
   /**@HostParam('host') host: string 获取主机参数 */
   @ApiOperation({ summary: '获取主机参数', description: '获取主机相关参数' })
+  @Public()
   @Get('hostParam')
   getHostParam(@HostParam('host') host: string) {
     return this.testService.getHostParam(host);
@@ -123,6 +133,7 @@ export class TestController {
 
   /**@Patch() 获取 Patch 请求 */
   @ApiOperation({ summary: 'Patch请求', description: '处理Patch请求' })
+  @Public()
   @Patch('patch')
   getPatch() {
     return this.testService.getPatch();
@@ -130,6 +141,7 @@ export class TestController {
 
   /**@Put() 获取 Put 请求 */
   @ApiOperation({ summary: 'Put请求', description: '处理Put请求' })
+  @Public()
   @Put('put')
   getPut() {
     return this.testService.getPut();
@@ -137,6 +149,7 @@ export class TestController {
 
   /**@Delete() 获取 Delete 请求 */
   @ApiOperation({ summary: 'Delete请求', description: '处理Delete请求' })
+  @Public()
   @Delete('delete')
   getDelete() {
     return this.testService.getDelete();
@@ -144,6 +157,7 @@ export class TestController {
 
   /**路由通配符 */
   @ApiOperation({ summary: '通配符路由', description: '演示通配符路由功能' })
+  @Public()
   @Get('ab*cd')
   getWildcard() {
     return this.testService.getWildcard();
@@ -154,6 +168,7 @@ export class TestController {
     summary: '自定义状态码',
     description: '返回自定义HTTP状态码',
   })
+  @Public()
   @Get('status')
   @HttpCode(HttpStatus.NOT_FOUND)
   getStatus() {
@@ -162,6 +177,7 @@ export class TestController {
 
   /**@Header() 设置响应头 */
   @ApiOperation({ summary: '自定义响应头', description: '设置自定义响应头' })
+  @Public()
   @Get('header')
   @Header('Cache-Control', 'none')
   getHeader() {
@@ -170,6 +186,7 @@ export class TestController {
 
   /**@Redirect() 重定向 */
   @ApiOperation({ summary: '重定向', description: '页面重定向示例' })
+  @Public()
   @Get('redirect')
   @Redirect('https://www.baidu.com', 301)
   getRedirect() {
@@ -178,6 +195,7 @@ export class TestController {
 
   /**@Exception() 抛出异常 */
   @ApiOperation({ summary: '异常处理', description: '异常处理示例' })
+  @Public()
   @Get('exception')
   getException() {
     return this.testService.getException();
@@ -185,6 +203,7 @@ export class TestController {
 
   /**@PaginationDto() 分页 */
   @ApiOperation({ summary: '分页', description: '分页示例' })
+  @Public()
   @Get('pagination')
   getPagination(@Query() query: PaginationDto) {
     return this.testService.getPagination(query);

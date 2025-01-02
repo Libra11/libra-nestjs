@@ -22,4 +22,8 @@ export class CoreService {
   setupSwagger(app: INestApplication) {
     return this.configService.setupSwagger(app);
   }
+
+  getJwtConfig() {
+    return this.configService.getJwtConfig();
+  }
 }

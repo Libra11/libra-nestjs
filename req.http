@@ -2,21 +2,21 @@
 get http://localhost:3000/
 
 ### getHello
-get http://localhost:3000/user/string
+get http://localhost:3000/test/string
 
 ### get json
-get http://localhost:3000/user/json
+get http://localhost:3000/test/json
 
 ### 获取查询参数
-get http://localhost:3000/user/query?name=John&age=30
+get http://localhost:3000/test/query?name=John&age=30
 
 ### 获取路径参数
-get http://localhost:3000/user/param/123
+get http://localhost:3000/test/param/123
 
 ### 字符串参数
-get http://localhost:3000/user/param/string
+get http://localhost:3000/test/param/string
 ### 获取请求体
-post http://localhost:3000/user/body http/2
+post http://localhost:3000/test/body http/2
 content-type: application/json
 
 {
@@ -25,40 +25,53 @@ content-type: application/json
 }
 
 ### 获取请求头
-get http://localhost:3000/user/header
+get http://localhost:3000/test/header
 
 ### 获取请求IP
-get http://localhost:3000/user/ip
+get http://localhost:3000/test/ip
 
 ### 获取主机参数
-get http://localhost:3000/user/hostParam
+get http://localhost:3000/test/hostParam
 
 ### Patch 请求
-patch http://localhost:3000/user/patch
+patch http://localhost:3000/test/patch
 
 ### Put 请求
-put http://localhost:3000/user/put
+put http://localhost:3000/test/put
 
 ### Delete 请求
-delete http://localhost:3000/user/delete
+delete http://localhost:3000/test/delete
 
 ### 路由通配符
-get http://localhost:3000/user/ab_cd
+get http://localhost:3000/test/ab_cd
 
 ### 路由通配符
-get http://localhost:3000/user/abdcd
+get http://localhost:3000/test/abdcd
 
 ### 状态码
-get http://localhost:3000/user/status
+get http://localhost:3000/test/status
 
 ### 设置响应头
-get http://localhost:3000/user/header
+get http://localhost:3000/test/header
 
 ### 重定向
-get http://localhost:3000/user/redirect
+get http://localhost:3000/test/redirect
 
 ### 抛出异常
-get http://localhost:3000/user/exception
+get http://localhost:3000/test/exception
 
 ### 分页
-get http://localhost:3000/user/pagination?page=1&limit=2
+get http://localhost:3000/test/pagination?page=1&limit=2
+
+### local认证
+post http://localhost:3000/auth/login
+content-type: application/json
+
+{
+  "testname": "john",
+  "password": "changeme"
+}
+
+### get profile
+get http://localhost:3000/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTczNTgxMDY2MiwiZXhwIjoxNzM1ODk3MDYyfQ.Mvf6W4e5a1kHHIkGZdR6ULR9wIGxJ7JW90ndqj-XtMU
