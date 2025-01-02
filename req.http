@@ -1,0 +1,64 @@
+### 获取主页
+get http://localhost:3000/
+
+### getHello
+get http://localhost:3000/user/string
+
+### get json
+get http://localhost:3000/user/json
+
+### 获取查询参数
+get http://localhost:3000/user/query?name=John&age=30
+
+### 获取路径参数
+get http://localhost:3000/user/param/123
+
+### 字符串参数
+get http://localhost:3000/user/param/string
+### 获取请求体
+post http://localhost:3000/user/body http/2
+content-type: application/json
+
+{
+  "name": "John",
+  "age": 30
+}
+
+### 获取请求头
+get http://localhost:3000/user/header
+
+### 获取请求IP
+get http://localhost:3000/user/ip
+
+### 获取主机参数
+get http://localhost:3000/user/hostParam
+
+### Patch 请求
+patch http://localhost:3000/user/patch
+
+### Put 请求
+put http://localhost:3000/user/put
+
+### Delete 请求
+delete http://localhost:3000/user/delete
+
+### 路由通配符
+get http://localhost:3000/user/ab_cd
+
+### 路由通配符
+get http://localhost:3000/user/abdcd
+
+### 状态码
+get http://localhost:3000/user/status
+
+### 设置响应头
+get http://localhost:3000/user/header
+
+### 重定向
+get http://localhost:3000/user/redirect
+
+### 抛出异常
+get http://localhost:3000/user/exception
+
+### 分页
+get http://localhost:3000/user/pagination?page=1&limit=2
