@@ -8,55 +8,48 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
-import { CoreModule } from './modules/core/core.module';
-import { CommonService } from './modules/core/common/common.service';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 import { WinstonModule } from 'nest-winston';
-import { winstonConfig } from './modules/core/config/configs/winston.config';
 import { TestModule } from './modules/test/test.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { ConfigModule } from './modules/config/config.module';
+import { ConfigService } from './modules/config/config.service';
+
 @Module({
-  /**
-   * 导入 CoreModule 后，CoreModule 中的 CommonModule、ConfigModule、DatabaseModule、LoggerModule 也会被导入
-   * 这些模块中的服务和配置可以被 AppModule 及其子模块使用
-   */
   imports: [
+    // 配置模块必须在最前面
+    NestConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    // 自定义配置模块
+    ConfigModule,
+    // 其他依赖配置的模块
+    WinstonModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        configService.getWinstonConfig(),
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => configService.getDbConfig(),
+    }),
+    // 功能模块
     UserModule,
-    CoreModule,
     TestModule,
     AuthModule,
-    WinstonModule.forRoot(winstonConfig),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  // 模块类也可以注入提供者（例如，用于配置目的）：
-  // 但是，由于 circular dependency ，模块类本身不能作为 providers 注入。
-  constructor(private readonly commonService: CommonService) {}
+  constructor(private configService: ConfigService) {}
 
-  /**
-   * forRoutes 可以指定中间件应用的路径(可以是通配符)和方法
-   * forRoutes({
-      path: 'ab*cd',
-      method: RequestMethod.ALL,
-    });
-
-    forRoutes 可以制定 Controller
-    forRoutes(CatsController);
-
-
-    可以使用 exclude 排除某些路径
-    consumer
-      .apply(LoggerMiddleware)
-      .exclude(
-        { path: 'cats', method: RequestMethod.GET },
-        { path: 'cats', method: RequestMethod.POST },
-        'cats/(.*)',
-      )
-   */
   configure(consumer: MiddlewareConsumer) {
-    // 安全中间件， 全局应用 forRoutes('*')
     consumer.apply(SecurityMiddleware).forRoutes('*');
   }
 }

@@ -12,23 +12,22 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { CoreService } from '../core/core.service';
-import { CoreModule } from '../core/core.module';
 import { AuthController } from './auth.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { ConfigService } from '../config/config.service';
 
 @Module({
   imports: [
-    CoreModule,
     UserModule,
     PassportModule,
     JwtModule.registerAsync({
-      imports: [CoreModule],
-      inject: [CoreService],
-      useFactory: (coreService: CoreService) => ({
-        secret: coreService.getJwtConfig().secret,
-        signOptions: { expiresIn: coreService.getJwtConfig().expiresIn },
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getCommonConfig().jwt.secret,
+        signOptions: {
+          expiresIn: configService.getCommonConfig().jwt.expiresIn,
+        },
       }),
     }),
   ],
