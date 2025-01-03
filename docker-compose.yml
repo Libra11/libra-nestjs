@@ -1,13 +1,23 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  db:
-    image: postgres
-    restart: always
-    # set shared memory limit when using docker-compose
-    shm_size: 128mb
+  postgres:
+    image: postgres:latest
+    container_name: libra-postgres
     ports:
       - '5434:5432'
     environment:
-      POSTGRES_PASSWORD: lixin521
-      POSTGRES_USER: libra
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - libra-network
+
+volumes:
+  postgres_data:
+
+networks:
+  libra-network:
+    driver: bridge

@@ -29,7 +29,7 @@ export class SwaggerConfig {
           description: 'Enter JWT token',
           in: 'header',
         },
-        'JWT-auth',
+        'bearer',
       )
       .addTag('auth', 'Authentication endpoints')
       .addTag('users', 'User management endpoints')
@@ -43,6 +43,7 @@ export class SwaggerConfig {
     SwaggerModule.setup('api/docs', app, document, {
       swaggerOptions: {
         persistAuthorization: true,
+        security: [{ bearer: [] }],
       },
       customSiteTitle: 'Libra API Docs',
     });

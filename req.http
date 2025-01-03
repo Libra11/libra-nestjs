@@ -75,3 +75,7 @@ content-type: application/json
 ### get profile
 get http://localhost:3000/auth/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTczNTgxMDY2MiwiZXhwIjoxNzM1ODk3MDYyfQ.Mvf6W4e5a1kHHIkGZdR6ULR9wIGxJ7JW90ndqj-XtMU
+
+### 获取所有用户
+get http://localhost:3000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpYnJhIiwic3ViIjoxLCJpYXQiOjE3MzU4ODc1NTYsImV4cCI6MTczNTk3Mzk1Nn0.t8AWCFnWfbGvRH0zSNIdtd30Lr8lcTUklBt_TXbXpzI

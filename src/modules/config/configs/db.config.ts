@@ -7,6 +7,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { User } from '../../user/entities/user.entity';
 
 @Injectable()
 export class DbConfig {
@@ -20,7 +21,7 @@ export class DbConfig {
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
       database: this.configService.get<string>('DB_DATABASE'),
-      entities: [],
+      entities: [User],
       synchronize: true,
       logging: true,
     };

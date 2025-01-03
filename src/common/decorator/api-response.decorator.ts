@@ -12,6 +12,7 @@ export const ApiResponseDecorator = <TModel extends Type<any>>(
   status: HttpStatus,
   model?: TModel,
   description?: string,
+  isArray = false,
 ) => {
   if (!model) {
     return applyDecorators(
@@ -47,7 +48,12 @@ export const ApiResponseDecorator = <TModel extends Type<any>>(
             properties: {
               code: { type: 'number', example: status },
               message: { type: 'string' },
-              data: { $ref: getSchemaPath(model) },
+              data: isArray
+                ? {
+                    type: 'array',
+                    items: { $ref: getSchemaPath(model) },
+                  }
+                : { $ref: getSchemaPath(model) },
               timestamp: { type: 'string', format: 'date-time' },
               path: { type: 'string' },
             },
