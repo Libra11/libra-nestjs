@@ -7,19 +7,19 @@
 import {
   Controller,
   Post,
-  UseGuards,
   Request,
   Get,
   HttpStatus,
   Body,
 } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from '../../common/decorator/public.decorator';
 import { ApiBody, ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { LoginReqDto, LoginResDto } from './dto/login-dto';
 import { ApiResponseDecorator } from '../../common/decorator/api-response.decorator';
 import { UserService } from '../user/user.service';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+
 @ApiTags('认证')
 @Controller('auth')
 export class AuthController {
@@ -42,5 +42,14 @@ export class AuthController {
   @ApiOperation({ summary: '获取个人信息' })
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Post('refresh')
+  @Public()
+  @ApiOperation({ summary: '刷新访问令牌' })
+  @ApiBody({ type: RefreshTokenDto })
+  @ApiResponseDecorator(HttpStatus.OK, LoginResDto, '刷新成功')
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.authService.refreshToken(refreshTokenDto.refresh_token);
   }
 }

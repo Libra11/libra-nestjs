@@ -37,9 +37,6 @@ import { SeedService } from './services/seed.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.getCommonConfig().jwt.secret,
-        signOptions: {
-          expiresIn: configService.getCommonConfig().jwt.expiresIn,
-        },
       }),
     }),
     TypeOrmModule.forFeature([User, Role, Permission, PermissionGroup]),

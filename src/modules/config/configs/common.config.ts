@@ -15,9 +15,13 @@ export class CommonConfig {
     return {
       port: this.configService.get<number>('PORT') || 3000,
       jwt: {
-        secret:
-          this.configService.get<string>('JWT_SECRET') || 'libra-secret-key',
-        expiresIn: this.configService.get<string>('JWT_EXPIRES_IN') || '1d',
+        secret: process.env.JWT_SECRET || 'your-secret-key',
+        accessToken: {
+          expiresIn: '1h',
+        },
+        refreshToken: {
+          expiresIn: '7d',
+        },
       },
     };
   }
