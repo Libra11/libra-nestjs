@@ -28,6 +28,7 @@ import { PermissionGroupController } from './controllers/permission-group.contro
 import { PermissionGroupService } from './services/permission-group.service';
 import { PermissionGroup } from './entities/permission-group.entity';
 import { SeedService } from './services/seed.service';
+import { CaptchaService } from './services/captcha.service';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { SeedService } from './services/seed.service';
       useClass: JwtAuthGuard,
     },
     SeedService,
+    CaptchaService,
   ],
   exports: [AuthService],
 })

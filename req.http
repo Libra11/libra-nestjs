@@ -87,3 +87,6 @@ content-type: application/json
 {
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTczNjEzMzExMCwiZXhwIjoxNzM2MjE5NTEwfQ.Z9JyVVuZFNox7ITweh8ElmqY0RZE1OY-2lPUibTRzTs"
 }
+
+### 获取图形验证码
+get http://localhost:3000/auth/captcha

@@ -15,9 +15,23 @@ services:
     networks:
       - libra-network
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - '6379:6379'
+    command: redis-server --requirepass lixin521
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
 volumes:
   postgres_data:
+  redis_data:
 
 networks:
   libra-network:
+    driver: bridge
+  app-network:
     driver: bridge

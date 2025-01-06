@@ -11,6 +11,7 @@ import { CorsConfig } from './configs/cors.config';
 import { DbConfig } from './configs/db.config';
 import { SwaggerConfig } from './configs/swagger.config';
 import { WinstonConfig } from './configs/winston.config';
+import { RedisConfig } from './configs/redis.config';
 
 @Global()
 @Module({
@@ -21,6 +22,7 @@ import { WinstonConfig } from './configs/winston.config';
     DbConfig,
     SwaggerConfig,
     WinstonConfig,
+    RedisConfig,
   ],
   exports: [
     ConfigService,

@@ -11,6 +11,7 @@ import { CorsConfig } from './configs/cors.config';
 import { DbConfig } from './configs/db.config';
 import { SwaggerConfig } from './configs/swagger.config';
 import { WinstonConfig } from './configs/winston.config';
+import { RedisConfig } from './configs/redis.config';
 
 @Injectable()
 export class ConfigService {
@@ -21,6 +22,7 @@ export class ConfigService {
     private dbConfig: DbConfig,
     private swaggerConfig: SwaggerConfig,
     private winstonConfig: WinstonConfig,
+    private redisConfig: RedisConfig,
   ) {}
 
   get(key: string): string {
@@ -45,5 +47,9 @@ export class ConfigService {
 
   getWinstonConfig() {
     return this.winstonConfig.config;
+  }
+
+  getRedisConfig() {
+    return this.redisConfig.config;
   }
 }

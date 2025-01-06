@@ -17,6 +17,16 @@ export class LoginReqDto {
   @IsNotEmpty({ message: '密码不能为空' })
   @IsString()
   password: string;
+
+  @ApiProperty({ description: '验证码ID' })
+  @IsNotEmpty({ message: '验证码ID不能为空' })
+  @IsString()
+  captchaId: string;
+
+  @ApiProperty({ description: '验证码' })
+  @IsNotEmpty({ message: '验证码不能为空' })
+  @IsString()
+  captchaCode: string;
 }
 
 export class LoginResDto {
