@@ -12,22 +12,31 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../auth/entities/role.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const { password, ...rest } = createUserDto;
-    const hashedPassword = await bcrypt.hash(password, 10);
+  async create(createUserDto: CreateUserDto) {
+    const { roleIds, ...userData } = createUserDto;
+
+    // 加密密码
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
 
     const user = this.userRepository.create({
-      ...rest,
+      ...userData,
       password: hashedPassword,
     });
+
+    if (roleIds?.length) {
+      user.roles = await this.roleRepository.findByIds(roleIds);
+    }
 
     return this.userRepository.save(user);
   }

@@ -8,6 +8,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Role } from '../../auth/entities/role.entity';
+import { Permission } from '../../auth/entities/permission.entity';
+import { PermissionGroup } from '../../auth/entities/permission-group.entity';
 
 @Injectable()
 export class DbConfig {
@@ -21,7 +24,7 @@ export class DbConfig {
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
       database: this.configService.get<string>('DB_DATABASE'),
-      entities: [User],
+      entities: [User, Role, Permission, PermissionGroup],
       synchronize: true,
       logging: true,
     };

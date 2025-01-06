@@ -4,8 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../../auth/entities/role.entity';
 
 @Entity('users')
 export class User {
@@ -44,4 +47,12 @@ export class User {
   @ApiProperty({ description: '更新时间' })
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToMany(() => Role)
+  @JoinTable({
+    name: 'user_roles',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
+  })
+  roles: Role[];
 }

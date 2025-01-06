@@ -1,5 +1,18 @@
+/*
+ * @Author: Libra
+ * @Date: 2025-01-03 14:50:02
+ * @LastEditors: Libra
+ * @Description:
+ */
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  Length,
+  IsArray,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({ description: '用户名' })
@@ -25,4 +38,10 @@ export class CreateUserDto {
   @ApiProperty({ description: '头像', required: false })
   @IsOptional()
   avatar?: string;
+
+  @ApiProperty({ description: '角色ID列表', type: [Number], required: false })
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  roleIds?: number[];
 }

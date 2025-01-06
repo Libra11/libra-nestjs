@@ -16,6 +16,18 @@ import { AuthController } from './auth.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ConfigService } from '../config/config.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../user/entities/user.entity';
+import { Role } from './entities/role.entity';
+import { Permission } from './entities/permission.entity';
+import { RoleService } from './services/role.service';
+import { PermissionService } from './services/permission.service';
+import { RoleController } from './controllers/role.controller';
+import { PermissionController } from './controllers/permission.controller';
+import { PermissionGroupController } from './controllers/permission-group.controller';
+import { PermissionGroupService } from './services/permission-group.service';
+import { PermissionGroup } from './entities/permission-group.entity';
+import { SeedService } from './services/seed.service';
 
 @Module({
   imports: [
@@ -30,17 +42,27 @@ import { ConfigService } from '../config/config.service';
         },
       }),
     }),
+    TypeOrmModule.forFeature([User, Role, Permission, PermissionGroup]),
   ],
-  controllers: [AuthController],
+  controllers: [
+    AuthController,
+    RoleController,
+    PermissionController,
+    PermissionGroupController,
+  ],
   providers: [
     AuthService,
     LocalStrategy,
     JwtStrategy,
+    RoleService,
+    PermissionService,
+    PermissionGroupService,
     // 全局JWT认证守卫
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    SeedService,
   ],
   exports: [AuthService],
 })
