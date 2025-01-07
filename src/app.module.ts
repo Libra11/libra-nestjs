@@ -17,6 +17,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 import { RedisModule } from './modules/redis/redis.module';
+import { MenuModule } from './modules/menu/menu.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { RedisModule } from './modules/redis/redis.module';
     TestModule,
     AuthModule,
     RedisModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],

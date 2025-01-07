@@ -5,7 +5,11 @@
  * @Description:
  */
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginReqDto } from './dto/login-dto';
@@ -32,14 +36,26 @@ export class AuthService {
 
   async login(loginDto: LoginReqDto) {
     const user = await this.validateUser(loginDto.username, loginDto.password);
+
+    if (!user) {
+      throw new BadRequestException('用户名或密码错误');
+    }
+
     const [accessToken, refreshToken] = await Promise.all([
       this.generateAccessToken(user),
       this.generateRefreshToken(user),
     ]);
 
+    // 获取完整的用户信息(包括角色、权限等)
+    const fullUser = await this.userService.findOne(user.id);
+
+    // 移除敏感信息
+    delete fullUser.password;
+
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
+      user: fullUser,
     };
   }
 

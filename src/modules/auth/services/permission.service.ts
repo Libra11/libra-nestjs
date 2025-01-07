@@ -1,6 +1,12 @@
+/*
+ * @Author: Libra
+ * @Date: 2025-01-03 16:27:03
+ * @LastEditors: Libra
+ * @Description: 权限服务
+ */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
 
 @Injectable()
@@ -16,11 +22,16 @@ export class PermissionService {
   }
 
   async findAll() {
-    return this.permissionRepository.find();
+    return this.permissionRepository.find({
+      relations: ['group'],
+    });
   }
 
   async findByIds(ids: number[]) {
-    return this.permissionRepository.findByIds(ids);
+    return this.permissionRepository.find({
+      where: { id: In(ids) },
+      relations: ['group'],
+    });
   }
 
   async update(id: number, data: Partial<Permission>) {

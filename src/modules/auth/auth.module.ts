@@ -29,6 +29,8 @@ import { PermissionGroupService } from './services/permission-group.service';
 import { PermissionGroup } from './entities/permission-group.entity';
 import { SeedService } from './services/seed.service';
 import { CaptchaService } from './services/captcha.service';
+import { PermissionGuard } from './guards/permission.guard';
+import { Menu } from '../menu/entities/menu.entity';
 
 @Module({
   imports: [
@@ -40,7 +42,7 @@ import { CaptchaService } from './services/captcha.service';
         secret: configService.getCommonConfig().jwt.secret,
       }),
     }),
-    TypeOrmModule.forFeature([User, Role, Permission, PermissionGroup]),
+    TypeOrmModule.forFeature([User, Role, Permission, PermissionGroup, Menu]),
   ],
   controllers: [
     AuthController,
@@ -59,6 +61,10 @@ import { CaptchaService } from './services/captcha.service';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard,
     },
     SeedService,
     CaptchaService,

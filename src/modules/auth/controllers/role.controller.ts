@@ -17,6 +17,7 @@ import { CreateRoleDto } from '../dto/create-role.dto';
 import { ApiResponseDecorator } from '../../../common/decorator/api-response.decorator';
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import { SetPermissionsDto } from '../dto/set-permissions.dto';
+import { SetMenusDto } from '../dto/set-menus.dto';
 
 @ApiTags('角色管理')
 @ApiBearerAuth('bearer')
@@ -49,7 +50,7 @@ export class RoleController {
   }
 
   @Get(':id')
-  @Permissions('role:read')
+  @Permissions('role:get')
   @ApiOperation({ summary: '获取角色详情' })
   @ApiResponseDecorator(HttpStatus.OK, Role, '获取成功')
   findOne(@Param('id', ParseIntPipe) id: number) {
@@ -86,5 +87,17 @@ export class RoleController {
     @Body() setPermissionsDto: SetPermissionsDto,
   ) {
     return this.roleService.setPermissions(id, setPermissionsDto.permissionIds);
+  }
+
+  @Post(':id/menus')
+  @Permissions('role:setMenus')
+  @ApiOperation({ summary: '设置角色菜单' })
+  @ApiResponseDecorator(HttpStatus.OK, Role, '设置成功')
+  @ApiBody({ type: SetMenusDto })
+  setMenus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() setMenusDto: SetMenusDto,
+  ) {
+    return this.roleService.setMenus(id, setMenusDto.menuIds);
   }
 }

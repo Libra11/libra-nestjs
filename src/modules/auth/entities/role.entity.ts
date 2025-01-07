@@ -15,6 +15,7 @@ import {
 } from 'typeorm';
 import { Permission } from './permission.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Menu } from '../../menu/entities/menu.entity';
 
 @Entity('roles')
 export class Role {
@@ -34,18 +35,23 @@ export class Role {
   @Column({ length: 200, nullable: true })
   description: string;
 
+  @ApiProperty({ description: '权限列表' })
   @ManyToMany(() => Permission)
   @JoinTable({
     name: 'role_permissions',
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
   })
-  @ApiProperty({
-    description: '权限列表',
-    type: () => Permission,
-    isArray: true,
-  })
   permissions: Permission[];
+
+  @ApiProperty({ description: '菜单列表' })
+  @ManyToMany(() => Menu)
+  @JoinTable({
+    name: 'role_menus',
+    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'menu_id', referencedColumnName: 'id' },
+  })
+  menus: Menu[];
 
   @ApiProperty({ description: '创建时间' })
   @CreateDateColumn()

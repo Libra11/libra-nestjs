@@ -90,3 +90,13 @@ content-type: application/json
 
 ### 获取图形验证码
 get http://localhost:3000/auth/captcha
+
+### 获取菜单
+get http://localhost:3000/menus
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsImlhdCI6MTczNjE1NDg5NCwiZXhwIjoxNzM2MTU4NDk0fQ.2YiaaawIQT7XrX2-2RRZcuLvWerZ2XjtaS6Osrx8GZo
+
+### find one menu
+get http://localhost:3000/menus/2
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsInVzZXJuYW1lIjoic3VwZXJhZG1pbiIsImlhdCI6MTczNjE1NDg5NCwiZXhwIjoxNzM2MTU4NDk0fQ.2YiaaawIQT7XrX2-2RRZcuLvWerZ2XjtaS6Osrx8GZo

@@ -13,12 +13,12 @@ import { v4 as uuidv4 } from 'uuid';
 export class CaptchaService {
   constructor(private redisService: RedisService) {}
 
-  async generate() {
+  async generate(isDark) {
     const captcha = svgCaptcha.create({
       size: 4, // 验证码长度
       noise: 2, // 干扰线条数
       color: true,
-      background: '#fff',
+      background: isDark ? '#1d1e1f' : '#fff',
     });
 
     const id = uuidv4();

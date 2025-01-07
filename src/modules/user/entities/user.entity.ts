@@ -1,3 +1,9 @@
+/*
+ * @Author: Libra
+ * @Date: 2025-01-03 14:49:56
+ * @LastEditors: Libra
+ * @Description: 用户实体
+ */
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -48,6 +54,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @ApiProperty({ description: '角色', type: () => Role })
   @ManyToMany(() => Role)
   @JoinTable({
     name: 'user_roles',

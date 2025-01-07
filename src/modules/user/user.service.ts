@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../auth/entities/role.entity';
+import { Menu } from '../menu/entities/menu.entity';
 
 @Injectable()
 export class UserService {
@@ -42,17 +43,24 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: ['roles'],
+    });
   }
 
   async findOne(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
+    return user;
   }
 
   async findByUsername(username: string): Promise<User> {
     return this.userRepository.findOne({
       where: { username },
-      select: ['id', 'username', 'password'], // 确保返回密码字段用于验证
+      select: ['id', 'username', 'password'],
+      relations: ['roles', 'roles.permissions'],
     });
   }
 

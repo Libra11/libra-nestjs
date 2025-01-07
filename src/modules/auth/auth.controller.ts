@@ -11,7 +11,8 @@ import {
   Get,
   HttpStatus,
   Body,
-  UnauthorizedException,
+  BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from '../../common/decorator/public.decorator';
@@ -36,8 +37,9 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: '获取验证码' })
   @ApiResponseDecorator(HttpStatus.OK, CaptchaResDto, '获取成功')
-  async getCaptcha() {
-    return this.captchaService.generate();
+  async getCaptcha(@Query('isDark') isDark) {
+    const dark = isDark === 'true';
+    return this.captchaService.generate(dark);
   }
 
   @Post('login')
@@ -53,7 +55,7 @@ export class AuthController {
     );
 
     if (!validCaptcha) {
-      throw new UnauthorizedException('验证码错误或已过期');
+      throw new BadRequestException('验证码错误或已过期');
     }
 
     return this.authService.login(loginDto);
